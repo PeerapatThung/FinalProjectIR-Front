@@ -1,2 +1,2 @@
 import { reactive } from 'vue'
-export default reactive({ query: null, result: null })
+export default reactive({ query: null, result: null, recipes: null, recipe: null })
