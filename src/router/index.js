@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import About from '../views/About.vue'
-import Search from '@/views/Search.vue'
+import SearchTitle from '@/views/SearchTitle.vue'
 import NetWorkError from '@/views/NetworkError.vue';
 import RecipeList from '@/views/RecipeList.vue'
 import RecipeDetails from '@/views/Details.vue';
+import SearchIngredient from '@/views/SearchIngredients.vue'
 import RecipeService from '../services/RecipeService';
 import GStore from '@/store'
 import NProgress from 'nprogress'
@@ -42,9 +43,16 @@ const routes = [{
         },
     },
     {
-        path: '/search',
-        name: 'Search',
-        component: Search
+        path: '/search/ingredient',
+        name: 'SearchIngredient',
+        component: SearchIngredient,
+        props: (route) => ({ page: parseInt(route.query.page) || 1 })
+    },
+    {
+        path: '/search/title',
+        name: 'SearchTitle',
+        component: SearchTitle,
+        props: (route) => ({ page: parseInt(route.query.page) || 1 })
     },
     {
         path: '/network-error',

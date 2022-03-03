@@ -1,52 +1,101 @@
 <template>
   <div>
-    <h1>Search Song</h1>
+    <h1>Search by Ingredient</h1>
     <Form @submit="search" :validation-schema="schema">
       <h3>Query</h3>
 
       <Field name="query" type="text" />
-
-      <h3>Score</h3>
-
-      <Field name="score" type="text"/>
       <button type="submit">Submit</button>
     </Form>
+    <div v-if="recipes">
+    <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe"/>
+    </div>
+    <div class="pagination">
+      <router-link
+        id="page-prev"
+        :to="{ name: 'SearchIngredient', query: { page: page - 1} }"
+        rel="prev"
+        v-if="page != 1"
+      >
+        Prev Page</router-link
+      >
 
-    <pre>{{ result }}</pre>
+      <router-link
+        id="page-next"
+        :to="{ name: 'SearchIngredient', query: { page: page + 1} }"
+        rel="next"
+        v-if="hasNextPage"
+      >
+        Next Page</router-link
+      >
+    </div>
+
+    <!-- <pre>{{ result }}</pre> -->
   </div>
 </template>
 <script>
 import { Form, Field } from 'vee-validate'
 import * as yup from 'yup'
-import EventService from '@/services/EventService.js'
+import RecipeService from '@/services/RecipeService.js'
+import RecipeCard from '@/components/RecipeCard.vue'
 export default {
   components: {
     Form,
     Field,
+    RecipeCard
+  },
+  props: {
+    page: {
+      type: Number,
+      required: true
+    }
   },
   inject: ['GStore'],
   data() {
    const schema = yup.object().shape({
-      query: yup
-        .string(),
-      score: yup.string()
+      query: yup.string()
    })
     return {
       schema,
-      result: {
-      },
+      result: {},
+      recipes: null,
+      totalrecipes: 0, // <--- Added this to store totalrecipes
     }
   },
   methods: {
     search(json) {  
-        EventService.search(json)
+        RecipeService.searchIngredients(json, parseInt(this.page) || 1)
           .then((response) => {
-            this.result = response.data
+            this.result = json
+            this.recipes = response.data.result
+            this.totalrecipes = 100
             console.log(response.data)
           })
           .catch(() => {
             this.$router.push('NetworkError')
           })
+    }
+  },
+  // eslint-disable-next-line no-unused-vars
+  beforeRouteUpdate(routeTo) {
+    var queryFunction
+    queryFunction = RecipeService.searchIngredients(this.result, parseInt(routeTo.query.page) || 1)
+    queryFunction
+      .then((response) => {
+        console.log(response)
+        this.recipes = response.data.result // <-----
+      })
+      .catch(() => {
+        return { name: 'NetworkError' }
+      })
+  },
+  computed: {
+    hasNextPage() {
+      // First, calculate total pages
+      let totalPages = Math.ceil(this.totalrecipes / 10) // 2 is recipes per page
+
+      // Then check to see if the current page is less than the total pages.
+      return this.page < totalPages
     }
   }
 }
