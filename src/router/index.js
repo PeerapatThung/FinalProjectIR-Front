@@ -8,6 +8,7 @@ import SearchIngredient from '@/views/SearchIngredients.vue'
 import RecipeService from '../services/RecipeService';
 import GStore from '@/store'
 import NProgress from 'nprogress'
+import welcome from "@/templates/base.vue"
 const routes = [{
         path: '/about',
         name: 'About',
@@ -59,6 +60,11 @@ const routes = [{
         path: '/network-error',
         name: 'NetworkError',
         component: NetWorkError
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: welcome
     }
 ]
 
