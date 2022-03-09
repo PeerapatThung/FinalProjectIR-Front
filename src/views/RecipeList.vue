@@ -49,7 +49,6 @@ export default {
       keyword: null
     }
   },
-
   // eslint-disable-next-line no-unused-vars
   beforeRouteEnter(routeTo, routeFrom, next) {
     RecipeService.getRecipes(parseInt(routeTo.query.page) || 1)

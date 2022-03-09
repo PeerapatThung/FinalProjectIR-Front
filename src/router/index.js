@@ -27,7 +27,8 @@ const routes = [{
             return RecipeService.getRecipe(to.params.id) // Return and params.id
                 .then((response) => {
                     // Still need to set the data here
-                    GStore.recipe = response.data // <--- Store the event
+                    GStore.recipe = response.data.result // <--- Store the event
+                    GStore.image = "@/assets/image/" + response.data.result.image
                 })
                 .catch((error) => {
                     if (error.response && error.response.status == 404) {
