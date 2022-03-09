@@ -1,13 +1,24 @@
 <template>
-  <p>Title : {{ recipe.title }}</p>
-  <p>Ingredients : {{ recipe.ingredient }}</p>
-  <p>Instruction : {{ recipe.instruction }}</p>
-  <!-- <img v-for="url in recipe.image" :key="url" :src="url" /> -->
+  <p>Title : {{ GStore.recipe.title }}</p>
+  <img :src="image" />
+  <p>Ingredients : {{ GStore.recipe.ingredient }}</p>
+  <p>Instruction : {{ GStore.recipe.instruction }}</p>
 </template>
 
 <script>
 export default {
-  props: ['recipe']
+  inject: ['GStore'],
+  props: {
+    recipe: {
+      type: Object,
+      required: true
+    }
+  },
+  data(){
+    return{
+      image: require('@/assets/image/' +this.GStore.recipe.image)
+    }
+  }
 }
 </script>
 <style scoped>
