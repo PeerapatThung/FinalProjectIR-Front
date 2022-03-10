@@ -1,0 +1,46 @@
+<template>
+  <router-link
+    :to="{ name: 'SearchIngredient', query: { search: correction }}"
+  >
+  {{ correction }} |
+  </router-link>
+</template>
+
+<script>
+export default {
+  name: 'CorrectionTemp',
+  props: {
+    correction: {
+      type: String,
+      required: true
+    }
+  }
+}
+</script>
+
+<style scoped>
+.recipe-card {
+  padding: 20px;
+  width: 250px;
+  cursor: pointer;
+  border: 1px solid #39495c;
+  margin-bottom: 18px;
+}
+
+.recipe-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
+}
+
+.recipe-link {
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+
+
+/* Add a hover effect (blue shadow) */
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+</style>
