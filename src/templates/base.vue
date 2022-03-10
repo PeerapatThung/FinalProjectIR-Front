@@ -25,7 +25,8 @@
               </a>
 <!--              {% endif %}-->
 <!--              {% if not current_user.is_authenticated %}-->
-              <a href="{{ url_for('auth.login') }}" class="navbar-item">
+              <router-link to="/login">Login</router-link> |
+              <a href="{{ url_for('login.vue') }}" class="navbar-item">
                 Login
               </a>
               <a href="{{ url_for('auth.signup') }}" class="navbar-item">
