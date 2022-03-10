@@ -1,14 +1,23 @@
 <template>
   <div>
     <h1>Search by Ingredient</h1>
+    <div class="card-container">
     <Form @submit="search" :validation-schema="schema">
-      <h3>Query</h3>
-
-      <Field name="query" type="text" />
+      <Field name="search" type="text"/>
       <button type="submit">Submit</button>
     </Form>
+    </div>
+    <div v-if="corrected">
+      <p>Currently Searching for: {{corrected}}</p>
+    </div>
+    <div v-if="corrections">
+      <p>Do you mean :</p>
+      <CorrectionTempIng v-for="item in corrections" :key="item" :correction="item"/>
+    </div>
     <div v-if="recipes">
-    <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe"/>
+      <div class="recipes">
+      <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe"/>
+      </div>
     </div>
     <div class="pagination">
       <router-link
@@ -38,11 +47,13 @@ import { Form, Field } from 'vee-validate'
 import * as yup from 'yup'
 import RecipeService from '@/services/RecipeService.js'
 import RecipeCard from '@/components/RecipeCard.vue'
+import CorrectionTempIng from '@/components/CorrectionTempIng.vue'
 export default {
   components: {
     Form,
     Field,
-    RecipeCard
+    RecipeCard,
+    CorrectionTempIng
   },
   props: {
     page: {
@@ -59,6 +70,8 @@ export default {
       schema,
       result: {},
       recipes: null,
+      corrections: null,
+      corrected: null,
       totalrecipes: 0, // <--- Added this to store totalrecipes
     }
   },
@@ -68,6 +81,7 @@ export default {
           .then((response) => {
             this.result = json
             this.recipes = response.data.result
+            this.corrections = response.data.correction
             this.totalrecipes = 100
             console.log(response.data)
           })
@@ -79,11 +93,18 @@ export default {
   // eslint-disable-next-line no-unused-vars
   beforeRouteUpdate(routeTo) {
     var queryFunction
-    queryFunction = RecipeService.searchIngredients(this.result, parseInt(routeTo.query.page) || 1)
+    if(routeTo.query.search){
+    queryFunction = RecipeService.searchTitle({search: routeTo.query.search}, parseInt(routeTo.query.page) || 1)
+    }
+    else 
+        queryFunction = RecipeService.searchTitle({search: this.corrected}, parseInt(routeTo.query.page) || 1)
     queryFunction
       .then((response) => {
-        console.log(response)
         this.recipes = response.data.result // <-----
+        this.corrections = response.data.correction
+        if(routeTo.query.search){
+          this.corrected = routeTo.query.search
+        }
       })
       .catch(() => {
         return { name: 'NetworkError' }
@@ -101,6 +122,16 @@ export default {
 }
 </script>
 <style>
+.card-container {
+  max-width: 700px !important;
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+}
+.recipes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 b,
 strong {
   font-weight: bolder;

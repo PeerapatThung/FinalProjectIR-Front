@@ -9,12 +9,12 @@ export default {
     },
     searchTitle(json, page) {
         return apiClient.post('/title/' + page, {
-            query: json.query
+            query: json.search
         })
     },
     searchIngredients(json, page) {
         return apiClient.post('/ingre/' + page, {
-            query: json.query
+            query: json.search
         })
     }
 }
