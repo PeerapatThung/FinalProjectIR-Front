@@ -8,6 +8,9 @@ import SearchIngredient from '@/views/SearchIngredients.vue'
 import RecipeService from '../services/RecipeService';
 import GStore from '@/store'
 import NProgress from 'nprogress'
+import welcome from "@/templates/base.vue"
+import Login from "@/templates/login.vue"
+import Register from "@/templates/signup.vue"
 const routes = [{
         path: '/about',
         name: 'About',
@@ -59,7 +62,23 @@ const routes = [{
         path: '/network-error',
         name: 'NetworkError',
         component: NetWorkError
+    },
+    {
+        path: '/welcome',
+        name: 'welcome',
+        component: welcome
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register
     }
+
 ]
 
 const router = createRouter({
