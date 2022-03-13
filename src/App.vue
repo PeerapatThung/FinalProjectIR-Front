@@ -17,7 +17,7 @@
         <li class="nav-item">
           <router-link to="/profile" class="nav-link">
             <font-awesome-icon icon="user" />
-            {{ GStore.currentUser.name}}
+            {{ GStore.currentUser.name }}
           </router-link>
         </li>
         <li class="nav-item">
@@ -35,7 +35,9 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link :to="{ name: 'SearchTitle' }">Search (By Title)</router-link>|
-    <router-link :to="{ name: 'SearchIngredient' }">Search (By Ingredient)</router-link>
+    <router-link :to="{ name: 'SearchIngredient' }"
+      >Search (By Ingredient)</router-link
+    >
   </div>
 
   <!-- new element -->
@@ -46,9 +48,9 @@ import AuthService from '@/services/AuthService.js'
 export default {
   inject: ['GStore'],
   methods: {
-    logout(){
+    logout() {
       AuthService.logout()
-      this.$router.push({name: "Login"})
+      this.$router.push({ name: 'Login' })
     }
   }
 }
@@ -77,5 +79,11 @@ export default {
 }
 h4 {
   font-size: 20px;
+}
+body {
+  background-image: url('bg.jpg');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-attachment: fixed;
 }
 </style>

@@ -1,8 +1,23 @@
 <template>
   <p>Title : {{ GStore.recipe.title }}</p>
   <img :src="image" />
-  <p>Ingredients : {{ GStore.recipe.ingredient }}</p>
-  <p>Instruction : {{ GStore.recipe.instruction }}</p>
+  <div class="FS">
+    <div class="size">
+      <Fieldset legend="Ingredients">
+        <div class="text">
+          <p>{{ GStore.recipe.ingredient }}</p>
+        </div>
+      </Fieldset>
+    </div>
+  </div>
+  <div class="FS">
+    <div class="size">
+      <Fieldset legend="Instruction">
+        <div class="text">
+          <p>{{ GStore.recipe.instruction }}</p>
+        </div>
+      </Fieldset>
+    </div>
   <div v-if="!hasFav">
     <button @click="setFav">Mark As Favourite</button>
   </div>
@@ -120,9 +135,20 @@ img {
   margin: 5px; /* Some margin */
   width: 150px; /* Set a small width */
 }
-.recom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.FS {
+  text-align: left;
+  margin-top: 5%;
+}
+
+.size {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.text {
+  text-align: center;
+}
+img {
+  width: 500px;
 }
 </style>

@@ -2,21 +2,31 @@
   <div>
     <h1>Search by Title</h1>
     <div class="card-container">
-    <Form @submit="search" :validation-schema="schema">
-      <Field name="search" type="text"/>
-      <button type="submit">Submit</button>
-    </Form>
+          <Form @submit="search" :validation-schema="schema">
+            <Field class="search-box" name="search" type="text"/>
+            <button class="button-1" type="submit">Submit</button>
+          </Form>
     </div>
     <div v-if="corrected">
-      <p>Currently Searching for: {{corrected}}</p>
+      <p>Currently Searching for: {{ corrected }}</p>
     </div>
     <div v-if="corrections">
       <p>Do you mean :</p>
-      <CorrectionTemp v-for="item in corrections" :key="item" :correction="item"/>
+      <CorrectionTemp
+        v-for="item in corrections"
+        :key="item"
+        :correction="item"
+      />
     </div>
     <div v-if="recipes">
       <div class="recipes">
-      <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
+        <div class="flex flex-wrap card-container" style="max-width: 500px">
+          <RecipeCard
+            v-for="recipe in recipes"
+            :key="recipe.id"
+            :recipe="recipe"
+          />
+        </div>
       </div>
     </div>
     <div class="pagination">
@@ -64,48 +74,52 @@ export default {
   },
   inject: ['GStore'],
   data() {
-   const schema = yup.object().shape({
-      query: yup
-        .string()
-   })
+    const schema = yup.object().shape({
+      query: yup.string()
+    })
     return {
       schema,
       result: {},
       recipes: null,
       corrections: null,
       corrected: null,
-      totalrecipes: 0, // <--- Added this to store totalrecipes
+      totalrecipes: 0 // <--- Added this to store totalrecipes
     }
   },
   methods: {
-    search(json) {  
-        RecipeService.searchTitle(json, parseInt(this.page) || 1)
-          .then((response) => {
-            this.result = json
-            this.recipes = response.data.result
-            this.corrections = response.data.correction
-            this.corrected = json.search
-            this.totalrecipes = 100
-            console.log(response.data)
-          })
-          .catch(() => {
-            this.$router.push('NetworkError')
-          })
+    search(json) {
+      RecipeService.searchTitle(json, parseInt(this.page) || 1)
+        .then((response) => {
+          this.result = json
+          this.recipes = response.data.result
+          this.corrections = response.data.correction
+          this.corrected = json.search
+          this.totalrecipes = 100
+          console.log(response.data)
+        })
+        .catch(() => {
+          this.$router.push('NetworkError')
+        })
     }
   },
   // eslint-disable-next-line no-unused-vars
   beforeRouteUpdate(routeTo) {
     var queryFunction
-    if(routeTo.query.search){
-    queryFunction = RecipeService.searchTitle({search: routeTo.query.search}, parseInt(routeTo.query.page) || 1)
-    }
-    else 
-        queryFunction = RecipeService.searchTitle({search: this.corrected}, parseInt(routeTo.query.page) || 1)
+    if (routeTo.query.search) {
+      queryFunction = RecipeService.searchTitle(
+        { search: routeTo.query.search },
+        parseInt(routeTo.query.page) || 1
+      )
+    } else
+      queryFunction = RecipeService.searchTitle(
+        { search: this.corrected },
+        parseInt(routeTo.query.page) || 1
+      )
     queryFunction
       .then((response) => {
         this.recipes = response.data.result // <-----
         this.corrections = response.data.correction
-        if(routeTo.query.search){
+        if (routeTo.query.search) {
           this.corrected = routeTo.query.search
         }
       })
@@ -142,26 +156,8 @@ strong {
 small {
   font-size: 80%;
 }
-.eyebrow {
-  font-size: 20px;
-}
-.-text-primary {
-  color: #39b982;
-}
-.-text-base {
-  color: #000;
-}
-.-text-error {
-  color: tomato;
-}
-.-text-gray {
-  color: rgba(0, 0, 0, 0.5);
-}
-.-shadow {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.13);
-}
 
-button,
+/*button,*/
 label,
 input,
 optgroup,
@@ -173,37 +169,15 @@ textarea {
   line-height: 1.15;
   margin: 0;
 }
-button,
+/*button,*/
 input {
   overflow: visible;
 }
-button,
+/*button,*/
 select {
   text-transform: none;
 }
-button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
-  -webkit-appearance: none;
-}
-button::-moz-focus-inner,
-[type='button']::-moz-focus-inner,
-[type='reset']::-moz-focus-inner,
-[type='submit']::-moz-focus-inner {
-  border-style: none;
-  padding: 0;
-}
-button:-moz-focusring,
-[type='button']:-moz-focusring,
-[type='reset']:-moz-focusring,
-[type='submit']:-moz-focusring {
-  outline: 2px solid #39b982;
-}
-label {
-  color: rgba(0, 0, 0, 0.5);
-  font-weight: 700;
-}
+
 input,
 textarea {
   box-sizing: border-box;
@@ -291,30 +265,7 @@ select:focus::ms-value {
 select::ms-expand {
   opacity: 0;
 }
-.field {
-  margin-bottom: 24px;
-}
-.error {
-  border: 1px solid red;
-}
-.errorMessage {
-  color: red;
-}
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 52px;
-  padding: 0 40px;
-  background: transparent;
-  border: none;
-  border-radius: 6px;
-  text-align: center;
-  font-weight: 600;
-  white-space: nowrap;
-  transition: all 0.2s linear;
-}
-.button:hover {
+button:hover {
   -webkit-transform: scale(1.02);
   transform: scale(1.02);
   box-shadow: 0 7px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -324,43 +275,47 @@ select::ms-expand {
   transform: scale(1);
   box-shadow: none;
 }
-.button:focus {
-  outline: 0;
-}
-.button:disabled {
-  -webkit-transform: scale(1);
-  transform: scale(1);
-  box-shadow: none;
-}
+
 .button + .button {
   margin-left: 1em;
-}
-.button.-fill-gradient {
-  background: linear-gradient(to right, #16c0b0, #84cf6a);
-  color: #ffffff;
-}
-.button.-fill-gray {
-  background: rgba(0, 0, 0, 0.5);
-  color: #ffffff;
-}
-.button.-size-small {
-  height: 32px;
-}
-.button.-icon-right {
-  text-align: left;
-  padding: 0 20px;
 }
 .button.-icon-right > .icon {
   margin-left: 10px;
 }
-.button.-icon-left {
-  text-align: right;
-  padding: 0 20px;
+button {
+  border-radius: 12px;
 }
-.button.-icon-left > .icon {
-  margin-right: 10px;
+.button-1 {
+  background-color: #44b35c;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Haas Grot Text R Web', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 30px;
+  outline: none;
+  padding: 10px 16px;
+  /*position: relative;*/
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: middle;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
-.button.-icon-center {
-  padding: 0 20px;
+
+.button-1:hover,
+.button-1:focus {
+  background-color: #63b875;
 }
+
 </style>

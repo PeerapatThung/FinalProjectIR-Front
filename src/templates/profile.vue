@@ -1,5 +1,5 @@
 <template>
-<!--  {% extends "base.html" %}-->
+  <!--  {% extends "base.html" %}-->
 
 <!--  {% block content %}-->
   <h1 class="title">
@@ -15,6 +15,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -4,9 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-            <div
-              class="card login"
-            >
+            <div class="card login">
               <h1>Sign In</h1>
               <Form @submit="doLogin" :validation-schema="schema">
                 <Field
@@ -21,7 +19,7 @@
                   class="form-control"
                   placeholder="Password"
                 />
-                <input type="submit" class="btn btn-primary"/>
+                <input type="submit" class="btn btn-primary" />
                 <p>
                   Don't have an account?
                   <router-link :to="{ name: 'Register' }">
@@ -43,16 +41,16 @@ import { Form, Field } from 'vee-validate'
 import * as yup from 'yup'
 import AuthService from '@/services/AuthService.js'
 export default {
-  name: "login",
+  name: 'login',
   components: {
     Form,
-    Field,
+    Field
   },
   data() {
     const schema = yup.object().shape({
       email: yup.string(),
       password: yup.string()
-   })
+    })
     return {
       registerActive: false,
       schema
@@ -61,13 +59,13 @@ export default {
   methods: {
     doLogin(json) {
       AuthService.login(json)
-          .then((response) => {
-            this.$router.push({name: 'RecipeList'})
-            console.log(response.user)
-          })
-          .catch(() => {
-            this.$router.push('NetworkError')
-          })
+        .then((response) => {
+          this.$router.push({ name: 'RecipeList' })
+          console.log(response.user)
+        })
+        .catch(() => {
+          this.$router.push('NetworkError')
+        })
     }
   }
 }
@@ -110,8 +108,6 @@ p {
 .fade-leave-to {
   opacity: 0;
 }
-
-
 
 h1 {
   margin-bottom: 1.5rem;
