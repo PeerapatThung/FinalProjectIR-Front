@@ -2,10 +2,10 @@
   <div>
     <h1>Search by Title</h1>
     <div class="card-container">
-          <Form @submit="search" :validation-schema="schema">
-            <Field class="search-box" name="search" type="text"/>
-            <button class="button-1" type="submit">Submit</button>
-          </Form>
+      <Form @submit="search" :validation-schema="schema">
+        <Field class="search-box" name="search" type="text" />
+        <button class="button-1" type="submit">Submit</button>
+      </Form>
     </div>
     <div v-if="corrected">
       <p>Currently Searching for: {{ corrected }}</p>
@@ -27,26 +27,36 @@
             :recipe="recipe"
           />
         </div>
-      </div>
-    </div>
-    <div class="pagination">
-      <router-link
-        id="page-prev"
-        :to="{ name: 'SearchTitle', query: { page: page - 1 } }"
-        rel="prev"
-        v-if="page != 1"
-      >
-        Prev Page</router-link
-      >
+        <div class="pagination">
+          <Button
+            class="p-button-raised p-button-success p-button p-component"
+            v-if="page != 1"
+          >
+            <router-link
+              id="page-prev"
+              :to="{ name: 'SearchTitle', query: { page: page - 1 } }"
+              rel="prev"
+              v-if="page != 1"
+            >
+              Prev Page</router-link
+            >
+          </Button>
 
-      <router-link
-        id="page-next"
-        :to="{ name: 'SearchTitle', query: { page: page + 1 } }"
-        rel="next"
-        v-if="hasNextPage"
-      >
-        Next Page</router-link
-      >
+          <Button
+            class="p-button-raised p-button-success p-button p-component"
+            v-if="hasNextPage"
+          >
+            <router-link
+              id="page-next"
+              :to="{ name: 'SearchTitle', query: { page: page + 1 } }"
+              rel="next"
+              v-if="hasNextPage"
+            >
+              Next Page</router-link
+            >
+          </Button>
+        </div>
+      </div>
     </div>
 
     <!-- <pre>{{ result }}</pre> -->
@@ -94,7 +104,7 @@ export default {
           this.recipes = response.data.result
           this.corrections = response.data.correction
           this.corrected = json.search
-          this.totalrecipes = 100
+          this.totalrecipes = response.data.total
           console.log(response.data)
         })
         .catch(() => {
@@ -139,6 +149,17 @@ export default {
 }
 </script>
 <style>
+.pagination {
+  display: flex;
+  width: 290px;
+  align-items: center;
+  margin: 50px;
+}
+.pagination a {
+  flex: 1;
+  text-decoration: none;
+  color: #2c3e50;
+}
 .card-container {
   max-width: 700px !important;
   padding: 20px 25px 30px;
@@ -155,6 +176,13 @@ strong {
 }
 small {
   font-size: 80%;
+}
+#page-prev {
+  text-align: left;
+}
+
+#page-next {
+  text-align: right;
 }
 
 /*button,*/
@@ -317,5 +345,4 @@ button {
 .button-1:focus {
   background-color: #63b875;
 }
-
 </style>

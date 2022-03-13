@@ -19,10 +19,10 @@
       </Fieldset>
     </div>
   </div>
-  <div v-if="!hasFav">
+  <div v-if="!hasFav && GStore.currentUser">
     <button @click="setFav">Mark As Favourite</button>
   </div>
-  <div v-else>
+  <div v-else-if="GStore.currentUser">
     <p>This recipe is currently in your favourite list</p>
     <button @click="removeFav">Remove From Favourite</button>
   </div>
