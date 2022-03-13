@@ -25,6 +25,11 @@
             <font-awesome-icon icon="sign-out-alt" /> LogOut
           </a>
         </li>
+        <li class="nav-item">
+          <router-link :to="{ name: 'FavouriteList', query: { page:1, user: GStore.currentUser.id}}" class="nav-link">
+            <font-awesome-icon icon="star" /> Favourites
+          </router-link>
+        </li>
       </ul>
     </nav>
     <router-link to="/">Home</router-link> |

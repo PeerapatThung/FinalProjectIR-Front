@@ -5,6 +5,7 @@
   >
     <div class="recipe-card">
       <div class="container">
+        <img :src="image" />
         <h5>{{ recipe.title }}</h5>
       </div>
     </div>
@@ -18,6 +19,11 @@ export default {
     recipe: {
       type: Object,
       required: true
+    }
+  },
+  data(){
+    return{
+      image: require('@/assets/image/' +this.recipe.image)
     }
   }
 }
@@ -56,6 +62,14 @@ h5 {
 .recipe-link {
   color: #2c3e50;
   text-decoration: none;
+}
+
+img {
+  border: 1px solid #ddd; /* Gray border */
+  border-radius: 4px; /* Rounded border */
+  padding: 5px; /* Some padding */
+  margin: 5px; /* Some margin */
+  width: 150px; /* Set a small width */ 
 }
 
 /* Add a hover effect (blue shadow) */

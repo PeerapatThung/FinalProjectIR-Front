@@ -1,14 +1,14 @@
 <template>
   <router-link
-    :to="{ name: 'SearchIngredient', query: { search: correction } }"
+    :to="{ name: 'FavouriteList', query: { search: correction }}"
   >
-    {{ correction }} |
+  {{ correction }} |
   </router-link>
 </template>
 
 <script>
 export default {
-  name: 'CorrectionTempIng',
+  name: 'CorrectionTempFav',
   props: {
     correction: {
       type: String,
@@ -36,6 +36,8 @@ export default {
   color: #2c3e50;
   text-decoration: none;
 }
+
+
 
 /* Add a hover effect (blue shadow) */
 img:hover {
