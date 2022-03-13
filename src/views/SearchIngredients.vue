@@ -3,7 +3,7 @@
     <h1>Search by Ingredient</h1>
     <div class="card-container">
       <Form @submit="search" :validation-schema="schema">
-        <Field class="search-box" name="search" type="text"/>
+        <Field class="search-box" name="search" type="text" />
         <button class="button-1" type="submit">Submit</button>
       </Form>
     </div>
@@ -27,28 +27,35 @@
             :recipe="recipe"
           />
         </div>
+        <div class="pagination">
+          <Button
+            class="p-button-raised p-button-success p-button p-component"
+            v-if="page != 1"
+          >
+            <router-link
+              id="page-prev"
+              :to="{ name: 'SearchIngredient', query: { page: page - 1 } }"
+              rel="prev"
+              v-if="page != 1"
+            >
+              Prev Page</router-link
+            >
+          </Button>
+          <Button
+            class="p-button-raised p-button-success p-button p-component"
+            v-if="hasNextPage"
+          >
+            <router-link
+              id="page-next"
+              :to="{ name: 'SearchIngredient', query: { page: page + 1 } }"
+              rel="next"
+            >
+              Next Page</router-link
+            >
+          </Button>
+        </div>
       </div>
     </div>
-    <div class="pagination">
-      <router-link
-        id="page-prev"
-        :to="{ name: 'SearchIngredient', query: { page: page - 1 } }"
-        rel="prev"
-        v-if="page != 1"
-      >
-        Prev Page</router-link
-      >
-
-      <router-link
-        id="page-next"
-        :to="{ name: 'SearchIngredient', query: { page: page + 1 } }"
-        rel="next"
-        v-if="hasNextPage"
-      >
-        Next Page</router-link
-      >
-    </div>
-
     <!-- <pre>{{ result }}</pre> -->
   </div>
 </template>
@@ -86,29 +93,34 @@ export default {
     }
   },
   methods: {
-    search(json) {  
-        RecipeService.searchIngredients(json, parseInt(this.page) || 1)
-          .then((response) => {
-            this.result = json
-            this.recipes = response.data.result
-            this.corrections = response.data.correction
-            this.corrected = json.search
-            this.totalrecipes = 100
-            console.log(response.data)
-          })
-          .catch(() => {
-            this.$router.push('NetworkError')
-          })
+    search(json) {
+      RecipeService.searchIngredients(json, parseInt(this.page) || 1)
+        .then((response) => {
+          this.result = json
+          this.recipes = response.data.result
+          this.corrections = response.data.correction
+          this.corrected = json.search
+          this.totalrecipes = response.data.total
+          console.log(response.data)
+        })
+        .catch(() => {
+          this.$router.push('NetworkError')
+        })
     }
   },
   // eslint-disable-next-line no-unused-vars
   beforeRouteUpdate(routeTo) {
     var queryFunction
-    if(routeTo.query.search){
-    queryFunction = RecipeService.searchIngredients({search: routeTo.query.search}, parseInt(routeTo.query.page) || 1)
-    }
-    else 
-        queryFunction = RecipeService.searchIngredients({search: this.corrected}, parseInt(routeTo.query.page) || 1)
+    if (routeTo.query.search) {
+      queryFunction = RecipeService.searchIngredients(
+        { search: routeTo.query.search },
+        parseInt(routeTo.query.page) || 1
+      )
+    } else
+      queryFunction = RecipeService.searchIngredients(
+        { search: this.corrected },
+        parseInt(routeTo.query.page) || 1
+      )
     queryFunction
       .then((response) => {
         this.recipes = response.data.result // <-----
@@ -133,6 +145,17 @@ export default {
 }
 </script>
 <style>
+.pagination {
+  display: flex;
+  width: 290px;
+  align-items: center;
+  margin: 50px;
+}
+.pagination a {
+  flex: 1;
+  text-decoration: none;
+  color: #2c3e50;
+}
 .card-container {
   max-width: 700px !important;
   padding: 20px 25px 30px;
@@ -239,8 +262,8 @@ select {
   padding: 0 24px 0 10px;
   vertical-align: middle;
   background: #fff
-  url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")
-  no-repeat right 12px center;
+    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
   background-size: 8px 10px;
   border: solid 1px rgba(0, 0, 0, 0.4);
   border-radius: 0;
@@ -288,7 +311,7 @@ button {
   cursor: pointer;
   display: inline-block;
   font-family: 'Haas Grot Text R Web', 'Helvetica Neue', Helvetica, Arial,
-  sans-serif;
+    sans-serif;
   font-size: 20px;
   font-weight: 500;
   height: 40px;
