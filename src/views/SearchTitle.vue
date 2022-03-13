@@ -20,12 +20,10 @@
     </div>
     <div v-if="recipes">
       <div class="recipes">
-        <div class="flex flex-wrap card-container" style="max-width: 500px">
-          <RecipeCard
-            v-for="recipe in recipes"
-            :key="recipe.id"
-            :recipe="recipe"
-          />
+        <div class="container">
+          <div class="row">
+            <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
+          </div>
         </div>
         <div class="pagination">
           <Button
@@ -165,6 +163,17 @@ export default {
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
 }
+.container{
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+
+}
+.row{
+  align-content: center;
+  align-self: center;
+}
+
 .recipes {
   display: flex;
   flex-direction: column;
