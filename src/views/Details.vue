@@ -7,21 +7,55 @@
     <button @click="setFav">Mark As Favourite</button>
   </div>
   <div v-else>
-    <p> This recipe is currently in your favourite list </p>
+    <p>This recipe is currently in your favourite list</p>
     <button @click="removeFav">Remove From Favourite</button>
+  </div>
+  <div v-if="recommend" class="recom">
+    <h2>You may also interested in</h2>
+    <RecipeCard v-for="rec in recommend" :key="rec.id" :recipe="rec" />
   </div>
 </template>
 
 <script>
 import RecipeService from '@/services/RecipeService.js'
+import RecipeCard from '@/components/RecipeCard.vue'
 export default {
   inject: ['GStore'],
+  components: {
+    RecipeCard
+  },
   data() {
     return {
       image: require('@/assets/image/' + this.GStore.recipe.image),
       favlist: null,
-      identity: null
+      identity: null,
+      recommend: null,
+      hasFav: false
     }
+  },
+  // eslint-disable-next-line no-unused-vars
+  beforeRouteUpdate(routeTo) {
+    this.recommend = null
+    var queryFunction
+    queryFunction = RecipeService.getRecipe(routeTo.params.id)
+    queryFunction
+      .then((response) => {
+        this.GStore.recipe = response.data.result // <--- Store the event
+        this.identity = this.GStore.recipe.id
+        this.hasFav = this.favlist.includes(this.identity)
+        this.image = require('@/assets/image/' + this.GStore.recipe.image)
+        RecipeService.getRecommendation(this.GStore.recipe.ingredient)
+          .then((response) => { 
+            this.recommend = response.data.result
+            console.log(this.recommend)
+          })
+          .catch(() => {
+            this.$router.push('NetworkError')
+          })
+      })
+      .catch(() => {
+        return { name: 'NetworkError' }
+      })
   },
   methods: {
     setFav() {
@@ -52,19 +86,29 @@ export default {
     RecipeService.getFav(this.GStore.currentUser.id)
       .then((response) => {
         this.favlist = response.data.result
+        this.hasFav = this.favlist.includes(this.identity)
         console.log(this.favlist)
       })
       .catch(() => {
         this.$router.push('NetworkError')
       })
   },
-  computed: {
-    hasFav() {
-      if (this.favlist) {
-        return this.favlist.includes(this.identity)
-      }
-      else return false
-    }
+  // computed: {
+  //   hasFav() {
+  //     if (this.favlist) {
+  //       return this.favlist.includes(this.identity)
+  //     } else return false
+  //   }
+  // },
+  mounted() {
+    RecipeService.getRecommendation(this.GStore.recipe.ingredient)
+      .then((response) => {
+        this.recommend = response.data.result
+        console.log(this.recommend)
+      })
+      .catch(() => {
+        this.$router.push('NetworkError')
+      })
   }
 }
 </script>
@@ -75,5 +119,10 @@ img {
   padding: 5px; /* Some padding */
   margin: 5px; /* Some margin */
   width: 150px; /* Set a small width */
+}
+.recom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

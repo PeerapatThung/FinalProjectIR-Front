@@ -41,5 +41,10 @@ export default {
         return apiClient.post('/searchfav/' + user, {
             query: json.search
         })
+    },
+    getRecommendation(ingre) {
+        return apiClient.post('/recommend', {
+            query: ingre
+        })
     }
 }
