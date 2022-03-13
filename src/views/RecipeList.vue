@@ -14,20 +14,23 @@
           id="page-prev"
           :to="{ name: 'RecipeList', query: { page: page - 1 } }"
           rel="prev"
-          v-if="page != 1"
         >
           Prev Page</router-link
         >
       </Button>
 
-      <router-link
-        id="page-next"
-        :to="{ name: 'RecipeList', query: { page: page + 1 } }"
-        rel="next"
+      <Button
+        class="p-button-raised p-button-success p-button p-component"
         v-if="hasNextPage"
       >
-        Next Page</router-link
-      >
+        <router-link
+          id="page-next"
+          :to="{ name: 'RecipeList', query: { page: page + 1 } }"
+          rel="next"
+        >
+          Next Page</router-link
+        >
+      </Button>
     </div>
   </div>
 </template>
@@ -101,7 +104,7 @@ export default {
 <style scoped>
 .recipes {
   display: flex;
-  /*flex-direction: column;*/
+  flex-direction: column;
   align-items: center;
 }
 .search-box {
@@ -110,6 +113,8 @@ export default {
 .pagination {
   display: flex;
   width: 290px;
+  align-items: center;
+  margin: 50px;
 }
 .pagination a {
   flex: 1;

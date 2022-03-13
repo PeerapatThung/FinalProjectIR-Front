@@ -87,7 +87,7 @@ export default {
             this.recipes = response.data.result
             this.corrections = response.data.correction
             this.corrected = json.search
-            this.totalrecipes = 100
+            this.totalrecipes = response.data.total
             console.log(response.data)
           })
           .catch(() => {
@@ -101,7 +101,7 @@ export default {
       .then((response) => {
         next((comp) => {
           comp.recipes = response.data.result
-          comp.totalrecipes = 100
+          comp.totalrecipes = response.data.total
           console.log(response)
         })
       })
