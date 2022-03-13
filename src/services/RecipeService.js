@@ -16,5 +16,30 @@ export default {
         return apiClient.post('/ingre/' + page, {
             query: json.search
         })
+    },
+    setFav(user, recipe) {
+        return apiClient.post('/setFav', {
+            userid: user,
+            recipeid: recipe
+        })
+    },
+    getFav(user) {
+        return apiClient.get('/fav/' + user)
+    },
+    removeFav(user, recipe) {
+        return apiClient.post('/removeFav', {
+            userid: user,
+            recipeid: recipe
+        })
+    },
+    seeAllFav(page, user) {
+        return apiClient.post('/showfav/' + page, {
+            userid: user
+        })
+    },
+    searchFav(json, user) {
+        return apiClient.post('/searchfav/' + user, {
+            query: json.search
+        })
     }
 }

@@ -4,6 +4,7 @@
     :to="{ name: 'RecipeDetails', params: { id: recipe.id } }"
   >
     <div class="recipe-card">
+      <img :src="image" />
       <h4>{{ recipe.title }}</h4>      
     </div>
   </router-link>
@@ -16,6 +17,11 @@ export default {
     recipe: {
       type: Object,
       required: true
+    }
+  },
+  data(){
+    return{
+      image: require('@/assets/image/' +this.recipe.image)
     }
   }
 }
@@ -40,7 +46,13 @@ export default {
   text-decoration: none;
 }
 
-
+img {
+  border: 1px solid #ddd; /* Gray border */
+  border-radius: 4px; /* Rounded border */
+  padding: 5px; /* Some padding */
+  margin: 5px; /* Some margin */
+  width: 150px; /* Set a small width */ 
+}
 
 /* Add a hover effect (blue shadow) */
 img:hover {

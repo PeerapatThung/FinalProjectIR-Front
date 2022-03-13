@@ -10,11 +10,24 @@ import GStore from '@/store'
 import NProgress from 'nprogress'
 import welcome from "@/templates/base.vue"
 import Login from "@/templates/login.vue"
-import Register from "@/templates/signup.vue"
+import Register from "@/templates/signup.vue";
+import FavouriteList from '@/views/FavouriteList.vue'
+import Profile from "@/templates/profile.vue";
 const routes = [{
         path: '/about',
         name: 'About',
         component: About
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile
+    },
+    {
+        path: '/fav',
+        name: 'FavouriteList',
+        component: FavouriteList,
+        props: (route) => ({ page: parseInt(route.query.page) || 1, user: parseInt(route.query.user) || GStore.currentUser.id })
     },
     {
         path: '/',
