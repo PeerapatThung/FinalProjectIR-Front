@@ -1,13 +1,15 @@
 <template>
   <h1>Recipe Lists</h1>
 
-  <div class="recipes">
-    <div class="flex flex-wrap card-container">
+  <div class="recipes" >
+    <div class="container">
+      <div class="row">
       <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
     </div>
+  </div>
     <div class="pagination">
-      <Button
-        class="p-button-raised p-button-success p-button p-component"
+<!--      <Button-->
+<!--        class="p-button-raised p-button-success p-button p-component"-->
         v-if="page != 1"
       >
         <router-link
@@ -18,7 +20,7 @@
         >
           Prev Page</router-link
         >
-      </Button>
+<!--      </Button>-->
 
       <router-link
         id="page-next"
@@ -26,7 +28,8 @@
         rel="next"
         v-if="hasNextPage"
       >
-        Next Page</router-link
+        Next Page
+      </router-link
       >
     </div>
   </div>
@@ -99,13 +102,24 @@ export default {
 }
 </script>
 <style scoped>
+.container{
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+
+}
+.row{
+  align-content: center;
+  align-self: center;
+}
+
 .recipes {
   display: flex;
-  /*flex-direction: column;*/
-  align-items: center;
-}
-.search-box {
-  width: 300px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 .pagination {
   display: flex;

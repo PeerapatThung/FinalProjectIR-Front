@@ -19,15 +19,12 @@
       />
     </div>
     <div v-if="recipes">
-      <div class="recipes">
-        <div class="flex flex-wrap card-container" style="max-width: 500px">
-          <RecipeCard
-            v-for="recipe in recipes"
-            :key="recipe.id"
-            :recipe="recipe"
-          />
+      <div class="recipes" >
+        <div class="container">
+          <div class="row">
+            <RecipeCard v-for="recipe in recipes" :key="recipe.id" :recipe="recipe" />
+          </div>
         </div>
-      </div>
     </div>
     <div class="pagination">
       <router-link
@@ -47,6 +44,7 @@
       >
         Next Page</router-link
       >
+    </div>
     </div>
 
     <!-- <pre>{{ result }}</pre> -->
@@ -138,10 +136,24 @@ export default {
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
 }
+.container{
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+
+}
+.row{
+  align-content: center;
+  align-self: center;
+}
+
 .recipes {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 b,
 strong {

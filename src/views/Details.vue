@@ -26,9 +26,14 @@
     <p>This recipe is currently in your favourite list</p>
     <button @click="removeFav">Remove From Favourite</button>
   </div>
-  <div v-if="recommend" class="recom">
+  <div v-if="recommend" >
     <h2>You may also interested in</h2>
-    <RecipeCard v-for="rec in recommend" :key="rec.id" :recipe="rec" />
+    <div class="container">
+      <div class="row">
+        <RecipeCard v-for="rec in recommend" :key="rec.id" :recipe="rec" />
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -152,4 +157,6 @@ img {
 img {
   width: 500px;
 }
+
+
 </style>
