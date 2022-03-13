@@ -4,9 +4,11 @@
     :to="{ name: 'RecipeDetails', params: { id: recipe.id } }"
   >
     <div class="recipe-card">
+      <div class="col">
       <div class="container">
         <img :src="image" />
         <h5>{{ recipe.title }}</h5>
+      </div>
       </div>
     </div>
   </router-link>
@@ -32,13 +34,13 @@ export default {
 <style scoped>
 .recipe-card {
   padding: 20px;
-  width: 250px;
+  width: 400px;
   height: 150px;
   cursor: pointer;
   border: 1px solid #39495c;
   margin-bottom: 20px;
-  margin-right: 40px;
-  margin-left: 30px;
+  margin-right: 50px;
+  margin-left: 50px;
   border-radius: 5%;
   background-color: rgba(160, 222, 198);
 }
