@@ -18,6 +18,7 @@
         </div>
       </Fieldset>
     </div>
+  </div>
   <div v-if="!hasFav">
     <button @click="setFav">Mark As Favourite</button>
   </div>
