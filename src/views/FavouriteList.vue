@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Search by Ingredient</h1>
+    <h1>Favourite List</h1>
     <div class="card-container">
     <Form @submit="search" :validation-schema="schema">
       <Field name="search" type="text"/>
@@ -12,7 +12,7 @@
     </div>
     <div v-if="corrections">
       <p>Do you mean :</p>
-      <CorrectionTempIng v-for="item in corrections" :key="item" :correction="item"/>
+      <CorrectionTempFav v-for="item in corrections" :key="item" :correction="item"/>
     </div>
     <div v-if="recipes">
       <div class="recipes">
@@ -22,7 +22,7 @@
     <div class="pagination">
       <router-link
         id="page-prev"
-        :to="{ name: 'SearchIngredient', query: { page: page - 1} }"
+        :to="{ name: 'FavouriteList', query: { page: page - 1, user: GStore.currentUser.id} }"
         rel="prev"
         v-if="page != 1"
       >
@@ -31,7 +31,7 @@
 
       <router-link
         id="page-next"
-        :to="{ name: 'SearchIngredient', query: { page: page + 1} }"
+        :to="{ name: 'FavouriteList', query: { page: page + 1, user: GStore.currentUser.id} }"
         rel="next"
         v-if="hasNextPage"
       >
@@ -47,18 +47,22 @@ import { Form, Field } from 'vee-validate'
 import * as yup from 'yup'
 import RecipeService from '@/services/RecipeService.js'
 import RecipeCard from '@/components/RecipeCard.vue'
-import CorrectionTempIng from '@/components/CorrectionTempIng.vue'
+import CorrectionTempFav from '@/components/CorrectionTempFav.vue'
 export default {
   components: {
     Form,
     Field,
     RecipeCard,
-    CorrectionTempIng
+    CorrectionTempFav
   },
   props: {
     page: {
       type: Number,
       required: true
+    },
+    user: {
+      type: Number,
+      required: false
     }
   },
   inject: ['GStore'],
@@ -77,7 +81,7 @@ export default {
   },
   methods: {
     search(json) {  
-        RecipeService.searchIngredients(json, parseInt(this.page) || 1)
+        RecipeService.searchFav(json, this.GStore.currentUser.id)
           .then((response) => {
             this.result = json
             this.recipes = response.data.result
@@ -92,13 +96,28 @@ export default {
     }
   },
   // eslint-disable-next-line no-unused-vars
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    RecipeService.seeAllFav(parseInt(routeTo.query.page) || 1, parseInt(routeTo.query.user))
+      .then((response) => {
+        next((comp) => {
+          comp.recipes = response.data.result
+          comp.totalrecipes = 100
+          console.log(response)
+        })
+      })
+      .catch(() => {
+        next({ name: 'NetworkError' })
+      })
+  },
   beforeRouteUpdate(routeTo) {
     var queryFunction
-    if(routeTo.query.search){
-    queryFunction = RecipeService.searchIngredients({search: routeTo.query.search}, parseInt(routeTo.query.page) || 1)
+    if(this.corrected && routeTo.query.search){
+    queryFunction = RecipeService.searchFav({search: routeTo.query.search}, this.GStore.currentUser.id)
     }
-    else 
-        queryFunction = RecipeService.searchIngredients({search: this.corrected}, parseInt(routeTo.query.page) || 1)
+    else if(this.corrected){
+        queryFunction = RecipeService.searchFav({search: this.corrected}, this.GStore.currentUser.id)
+    }
+    else queryFunction = RecipeService.seeAllFav(parseInt(routeTo.query.page) || 1, this.GStore.currentUser.id)
     queryFunction
       .then((response) => {
         this.recipes = response.data.result // <-----

@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: 'SearchIngredient', query: { search: correction }}"
+    :to="{ name: 'FavouriteList', query: { search: correction }}"
   >
   {{ correction }} |
   </router-link>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'CorrectionTempIng',
+  name: 'CorrectionTempFav',
   props: {
     correction: {
       type: String,

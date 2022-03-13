@@ -3,14 +3,15 @@
 
 <!--  {% block content %}-->
   <h1 class="title">
-    Welcome, {{ name }}!!!
+    Welcome, {{ GStore.currentUser.name }}!!!
   </h1>
 <!--  {% endblock %}-->
 </template>
 
 <script>
 export default {
-  name: "profile"
+  name: "profile",
+  inject: ['GStore']
 }
 </script>
 
