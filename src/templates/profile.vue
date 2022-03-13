@@ -1,19 +1,15 @@
 <template>
-<!--  {% extends "base.html" %}-->
+  <!--  {% extends "base.html" %}-->
 
-<!--  {% block content %}-->
-  <h1 class="title">
-    Welcome, {{ name }}!!!
-  </h1>
-<!--  {% endblock %}-->
+  <!--  {% block content %}-->
+  <h1 class="title">Welcome, {{ name }}!!!</h1>
+  <!--  {% endblock %}-->
 </template>
 
 <script>
 export default {
-  name: "profile"
+  name: 'profile'
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

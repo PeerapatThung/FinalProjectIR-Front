@@ -1,42 +1,63 @@
 <template>
+  <!--  {% extends "base.html" %}-->
 
-<!--  {% extends "base.html" %}-->
-
-<!--  {% block content %}-->
+  <!--  {% block content %}-->
   <div class="column is-4 is-offset-4">
     <h3 class="title">Sign Up</h3>
     <div class="box">
-<!--      {% with messages = get_flashed_messages() %}-->
-    <!-- <div v-if="">
+      <!--      {% with messages = get_flashed_messages() %}-->
+      <!-- <div v-if="">
       <div class="notification is-danger">
          Go to <a href="{{ url_for('auth.login') }}">login page</a>.
       </div>
     </div> -->
-<!--      {% endwith %}-->
+      <!--      {% endwith %}-->
       <Form @submit="verify" class="card register" :validation-schema="schema">
         <div class="field">
           <div class="control">
-            <Field class="input is-large" type="email" name="email" placeholder="Email" autofocus=""/>
+            <Field
+              class="input is-large"
+              type="email"
+              name="email"
+              placeholder="Email"
+              autofocus=""
+            />
           </div>
         </div>
 
         <div class="field">
           <div class="control">
-            <Field class="input is-large" type="text" name="name" placeholder="Name" autofocus=""/>
+            <Field
+              class="input is-large"
+              type="text"
+              name="name"
+              placeholder="Name"
+              autofocus=""
+            />
           </div>
         </div>
 
         <div class="field">
           <div class="control">
-            <Field class="input is-large" type="password" name="password" placeholder="Password"/>
+            <Field
+              class="input is-large"
+              type="password"
+              name="password"
+              placeholder="Password"
+            />
           </div>
         </div>
 
-        <button class="button is-block is-info is-large is-fullwidth" type="submit">Sign Up</button>
+        <button
+          class="button is-block is-info is-large is-fullwidth"
+          type="submit"
+        >
+          Sign Up
+        </button>
       </Form>
     </div>
   </div>
-<!--  {% endblock %}-->
+  <!--  {% endblock %}-->
 </template>
 
 <script>
@@ -44,34 +65,34 @@ import { Form, Field } from 'vee-validate'
 import * as yup from 'yup'
 import AuthService from '@/services/AuthService.js'
 export default {
-  name: "signup",
+  name: 'signup',
   components: {
     Form,
-    Field,
+    Field
   },
-  data(){
+  data() {
     const schema = yup.object().shape({
       email: yup.string(),
       name: yup.string(),
       password: yup.string()
-   })
-   return {
+    })
+    return {
       schema
     }
   },
   methods: {
-    verify(json) {  
-        AuthService.register(json)
-          .then((response) => {
-            this.$router.push({name: 'login'})
-            alert(response.data.success)
-            console.log(response.data)
-          })
-          .catch(() => {
-            this.$router.push('NetworkError')
-          })
+    verify(json) {
+      AuthService.register(json)
+        .then((response) => {
+          this.$router.push({ name: 'login' })
+          alert(response.data.success)
+          console.log(response.data)
+        })
+        .catch(() => {
+          this.$router.push('NetworkError')
+        })
     }
-  },
+  }
 }
 </script>
 
@@ -89,7 +110,7 @@ p {
   line-height: 1rem;
 }
 
-.field{
+.field {
   width: 50%;
 }
 
@@ -97,7 +118,7 @@ p {
   padding: 20px;
 }
 
-.register{
+.register {
   align-items: center;
   display: flex;
 }
@@ -131,8 +152,6 @@ p {
   opacity: 0;
 }
 
-
-
 h1 {
   margin-bottom: 1.5rem;
 }
@@ -159,5 +178,4 @@ h1 {
     transform: translateX(0);
   }
 }
-
 </style>

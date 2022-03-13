@@ -4,7 +4,9 @@
     :to="{ name: 'RecipeDetails', params: { id: recipe.id } }"
   >
     <div class="recipe-card">
-      <h4>{{ recipe.title }}</h4>      
+      <div class="container">
+        <h5>{{ recipe.title }}</h5>
+      </div>
     </div>
   </router-link>
 </template>
@@ -25,13 +27,29 @@ export default {
 .recipe-card {
   padding: 20px;
   width: 250px;
+  height: 150px;
   cursor: pointer;
   border: 1px solid #39495c;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  margin-right: 40px;
+  margin-left: 30px;
+  border-radius: 5%;
+  background-color: rgba(160, 222, 198);
+}
+.container {
+  display: table;
+  height: 100%;
+}
+h5 {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .recipe-card:hover {
-  transform: scale(1.01);
+  transition: 0.25s;
+  transform: scale(1.15);
+  background-color: rgb(230, 228, 228);
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -39,8 +57,6 @@ export default {
   color: #2c3e50;
   text-decoration: none;
 }
-
-
 
 /* Add a hover effect (blue shadow) */
 img:hover {

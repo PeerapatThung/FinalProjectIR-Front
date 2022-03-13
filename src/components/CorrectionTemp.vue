@@ -1,8 +1,6 @@
 <template>
-  <router-link
-    :to="{ name: 'SearchTitle', query: { search: correction }}"
-  >
-  {{ correction }} |
+  <router-link :to="{ name: 'SearchTitle', query: { search: correction } }">
+    {{ correction }} |
   </router-link>
 </template>
 
@@ -36,8 +34,6 @@ export default {
   color: #2c3e50;
   text-decoration: none;
 }
-
-
 
 /* Add a hover effect (blue shadow) */
 img:hover {
